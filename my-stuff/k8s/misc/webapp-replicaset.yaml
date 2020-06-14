@@ -1,0 +1,23 @@
+# ReplicaSet is 2 in 1 - replica set + pod definition, it controls and guarantees desired state
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: webapp-replicaset-v0-5
+
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webapp
+      release: "0-5"
+  template:
+    metadata:
+      labels:
+        app: webapp
+        release: "0-5"
+    spec:
+      containers:
+        - name: webapp
+          image: richardchesterwood/k8s-fleetman-webapp-angular:release0-5
+
+

@@ -1,0 +1,26 @@
+# Deployment builds on top of ReplicaSet, it's pretty similar, except it allows for zero downtime rollouts
+# by creating a new ReplicaSet, spinning up all required pods and then decommissioning the old ones.
+# It also allows for the changes to be rolled back and forward.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-v0
+
+spec:
+  replicas: 3
+  minReadySeconds: 5
+  selector:
+    matchLabels:
+      app: webapp
+      #release: "0-5"
+  template:
+    metadata:
+      labels:
+        app: webapp
+        #release: "0-5"
+    spec:
+      containers:
+        - name: webapp
+          image: richardchesterwood/k8s-fleetman-webapp-angular:release0-5
+
+
